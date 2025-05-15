@@ -1,23 +1,29 @@
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
   const [location, setLocation] = useState<{
-    lat: string | null;
-    lng: string | null;
+    lat: number | null;
+    lng: number | null;
   }>({ lat: null, lng: null });
+
   const [permission, setPermission] = useState<string | null>(null);
 
-  navigator.permissions?.query({ name: "geolocation" }).then((result) => {
-    setPermission(result.state); //NOTE: 설정: granted, denied, prompt
-  });
+  const handleMapOpen = (): void => {
+    const { lat, lng } = location;
+
+    if (lat == null || lng == null) return;
+
+    const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+
+    window.open(googleMapUrl, "_blank");
+  };
 
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const lat = position.coords.latitude.toFixed(5) ?? 0;
-        const lng = position.coords.longitude.toFixed(5) ?? 0;
+        const lat = parseFloat(position.coords.latitude.toFixed(5));
+        const lng = parseFloat(position.coords.longitude.toFixed(5));
         setLocation({ lat, lng });
       },
       (err) => {
@@ -38,10 +44,19 @@ function App() {
     );
   };
 
+  useEffect(() => {
+    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
+      setPermission(result.state); // granted, denied, prompt
+    });
+  }, []);
+
   return (
     <section className="root">
       <button className="button" onClick={getLocation}>
         {permission} {location.lat}, {location.lng}
+      </button>
+      <button className="geoButton" onClick={handleMapOpen}>
+        지도 연결
       </button>
     </section>
   );

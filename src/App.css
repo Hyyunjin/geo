@@ -1,9 +1,15 @@
 .root {
-  width: 100vw;
+  width: 90vw;
   margin: 0 auto;
 }
 
 .button {
   width: 100%;
   padding: 1.5em;
+  margin-bottom: 10px;
+}
+
+.geoButton {
+  width: 100%;
+  padding: 10px;
 }

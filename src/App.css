@@ -1,0 +1,9 @@
+.root {
+  width: 100vw;
+  margin: 0 auto;
+}
+
+.button {
+  width: 100%;
+  padding: 1.5em;
+}

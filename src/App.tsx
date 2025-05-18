@@ -7,6 +7,11 @@ function App() {
     lng: number | null;
   }>({ lat: null, lng: null });
 
+  const [watchLocation, setWatchLocation] = useState<{
+    lat: number | null;
+    lng: number | null;
+  }>({ lat: null, lng: null });
+
   const [permission, setPermission] = useState<string | null>(null);
 
   const handleMapOpen = (): void => {
@@ -44,6 +49,18 @@ function App() {
     );
   };
 
+  navigator.geolocation.watchPosition(
+    (position) => {
+      const lat = parseFloat(position.coords.latitude.toFixed(5));
+      const lng = parseFloat(position.coords.longitude.toFixed(5));
+
+      setWatchLocation({ lat, lng });
+    },
+    (err) => {
+      console.error("위치 에러:", err);
+    }
+  );
+
   useEffect(() => {
     navigator.permissions?.query({ name: "geolocation" }).then((result) => {
       setPermission(result.state); // granted, denied, prompt
@@ -53,8 +70,11 @@ function App() {
   return (
     <section className="root">
       <button className="button" onClick={getLocation}>
-        {permission} {location.lat}, {location.lng}
+        현재 위치 : {permission} {location.lat}, {location.lng}
       </button>
+      <div className="watchLocation">
+        실시간 위치 : {watchLocation.lat}, {watchLocation.lng}
+      </div>
       <button className="geoButton" onClick={handleMapOpen}>
         지도 연결
       </button>

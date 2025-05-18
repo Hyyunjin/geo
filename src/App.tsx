@@ -49,17 +49,22 @@ function App() {
     );
   };
 
-  navigator.geolocation.watchPosition(
-    (position) => {
-      const lat = parseFloat(position.coords.latitude.toFixed(5));
-      const lng = parseFloat(position.coords.longitude.toFixed(5));
+  useEffect(() => {
+    const watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        const lat = parseFloat(position.coords.latitude.toFixed(5));
+        const lng = parseFloat(position.coords.longitude.toFixed(5));
+        setWatchLocation({ lat, lng });
+      },
+      (err) => {
+        console.error("위치 에러:", err);
+      }
+    );
 
-      setWatchLocation({ lat, lng });
-    },
-    (err) => {
-      console.error("위치 에러:", err);
-    }
-  );
+    return () => {
+      navigator.geolocation.clearWatch(watchId); // 컴포넌트 언마운트 시 해제
+    };
+  }, []);
 
   useEffect(() => {
     navigator.permissions?.query({ name: "geolocation" }).then((result) => {

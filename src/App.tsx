@@ -14,6 +14,12 @@ function App() {
 
   const [permission, setPermission] = useState<string | null>(null);
 
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 2000,
+  };
+
   const handleMapOpen = (): void => {
     const { lat, lng } = location;
 
@@ -45,7 +51,7 @@ function App() {
           default:
             alert("알 수 없는 오류입니다.");
         }
-      }
+      },options
     );
   };
 

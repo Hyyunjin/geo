@@ -75,11 +75,9 @@ function App() {
   useEffect(() => {
     navigator.permissions?.query({ name: "geolocation" }).then((result) => {
       setPermission(result.state); // granted, denied, prompt
-      result.onchange = () => {
-        setPermission(result.state);
-      };
+   
     });
-  }, []);
+  }, [permission]);
 
   return (
     <section className="root">

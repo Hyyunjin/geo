@@ -30,7 +30,11 @@ function App() {
     window.open(googleMapUrl, "_blank");
   };
 
-  const getLocation = () => {
+  const getLocation = () => { 
+    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
+    setPermission(result.state); // granted, denied, prompt
+  });
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = parseFloat(position.coords.latitude.toFixed(5));
@@ -72,12 +76,6 @@ function App() {
     };
   }, []);
 
-  useEffect(() => {
-    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
-      setPermission(result.state); // granted, denied, prompt
-   
-    });
-  }, [permission]);
 
   return (
     <section className="root">

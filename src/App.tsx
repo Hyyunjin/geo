@@ -24,6 +24,12 @@ function App() {
     window.open(googleMapUrl, "_blank");
   };
 
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 2000,
+  };
+
   const getLocation = () => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -45,7 +51,7 @@ function App() {
           default:
             alert("알 수 없는 오류입니다.");
         }
-      }
+      },options
     );
   };
 

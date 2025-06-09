@@ -59,13 +59,10 @@ function App() {
 
   return (
     <section className="root">
-      {permission}
-      {permission ==="X" &&(<>
-      <button className="button" onClick={getLocation}>
-        현재 위치 : {permission} {location.lat}, {location.lng}
+
+       <button className="button" onClick={getLocation}>
+        geolocation {permission} - 현재 위치 {location.lat}, {location.lng}
       </button>
-      </>
-    )}
       <button className="geoButton" onClick={handleMapOpen}>
         지도 연결
       </button>

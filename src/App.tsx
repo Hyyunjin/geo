@@ -20,16 +20,11 @@ function App() {
     window.open(googleMapUrl, "_blank");
   };
 
-  const options = {
-    enableHighAccuracy: true,
-    timeout: 5000,
-    maximumAge: 2000,
-  };
+
 
   const getLocation = () => { 
-
   if ("geolocation" in navigator) {
-    setPermission("geolocation 사용 가능"); 
+    setPermission("O"); 
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -51,19 +46,26 @@ function App() {
           default:
             alert("알 수 없는 오류입니다.");
         }
-      },options
+      },{
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 2000,
+      }
     );
   } else {
-    setPermission("geolocation 사용 불가"); }
+    setPermission("X"); }
   };
 
 
   return (
     <section className="root">
+      {permission}
+      {permission ==="X" &&(<>
       <button className="button" onClick={getLocation}>
         현재 위치 : {permission} {location.lat}, {location.lng}
       </button>
-  
+      </>
+    )}
       <button className="geoButton" onClick={handleMapOpen}>
         지도 연결
       </button>

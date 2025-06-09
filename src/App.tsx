@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import "./App.css";
 
 function App() {
@@ -30,7 +30,7 @@ function App() {
     navigator.permissions?.query({ name: "geolocation" }).then((result) => {
     setPermission(result.state); // granted, denied, prompt
   });
-
+  if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = parseFloat(position.coords.latitude.toFixed(5));
@@ -53,14 +53,11 @@ function App() {
         }
       },options
     );
+  } else {
+    alert("이 브라우저에서는 위치 기능을 지원하지 않습니다.");
+  }
   };
 
- 
-  useEffect(() => {
-    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
-      setPermission(result.state); // granted, denied, prompt
-    });
-  }, []);
 
   return (
     <section className="root">

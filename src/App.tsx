@@ -27,10 +27,10 @@ function App() {
   };
 
   const getLocation = () => { 
-    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
-    setPermission(result.state); // granted, denied, prompt
-  });
+
   if ("geolocation" in navigator) {
+    setPermission("geolocation 사용 가능"); 
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = parseFloat(position.coords.latitude.toFixed(5));
@@ -54,8 +54,7 @@ function App() {
       },options
     );
   } else {
-    alert("이 브라우저에서는 위치 기능을 지원하지 않습니다.");
-  }
+    setPermission("geolocation 사용 불가"); }
   };
 
 

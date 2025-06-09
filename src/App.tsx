@@ -26,7 +26,11 @@ function App() {
     maximumAge: 2000,
   };
 
-  const getLocation = () => {
+  const getLocation = () => { 
+    navigator.permissions?.query({ name: "geolocation" }).then((result) => {
+    setPermission(result.state); // granted, denied, prompt
+  });
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         const lat = parseFloat(position.coords.latitude.toFixed(5));
